@@ -1,5 +1,6 @@
 package com.example.appsochitieu.Adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,11 +33,24 @@ class TaiKhoanAdapter(private val items: ArrayList<DataTaiKhoan>) :
 
         holder.textView.text = currentItem.sodu
         holder.textView2.text = currentItem.tentaikhoan
-        
     }
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    fun calculateTotalSodu(): Double {
+        var totalSodu = 0.0
+        for (item in items) {
+            totalSodu += item.sodu!!.toDouble()
+            if (item.sodu == null) {
+                Log.d("Hienzd", "null roi nhe")
+            } else {
+                totalSodu += item.sodu!!.toDouble()
+                Log.d("Hienzd", "${item.sodu}")
+            }
+        }
+        return totalSodu
     }
 
 

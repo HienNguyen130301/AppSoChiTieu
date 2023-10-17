@@ -27,6 +27,7 @@ class FramentTaiKhoan : Fragment() {
     private lateinit var ds: ArrayList<DataTaiKhoan>
     private lateinit var dbRef: DatabaseReference
     private lateinit var recyclerView: RecyclerView
+    private lateinit var mtotal : TextView
 
 
     override fun onCreateView(
@@ -58,6 +59,8 @@ class FramentTaiKhoan : Fragment() {
         recyclerView.setHasFixedSize(true)
         ds = arrayListOf<DataTaiKhoan>()
         GetThongTinTaiKhoan()
+
+
     }
 
 
@@ -74,6 +77,8 @@ class FramentTaiKhoan : Fragment() {
                     }
                     val mAdapter = TaiKhoanAdapter(ds)
                     recyclerView.adapter = mAdapter
+                    val totalSodu = mAdapter.calculateTotalSodu()
+                    mtotal.text = "Total Sodu: $totalSodu"
                 }
             }
 
