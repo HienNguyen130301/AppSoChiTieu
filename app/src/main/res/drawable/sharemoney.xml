@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Default state (normal) -->
+    <item android:state_pressed="false" android:state_focused="false">
+        <layer-list>
+            <item>
+                <shape>
+                    <corners android:radius="10dp" />
+                    <solid android:color="#1054A6" /> <!-- Change to the desired color -->
+                </shape>
+            </item>
+
+            <item android:drawable="@drawable/share_money_24"
+                />
+
+        </layer-list>
+    </item>
+</selector>
