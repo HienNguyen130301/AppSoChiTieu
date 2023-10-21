@@ -1,5 +1,6 @@
 package com.example.appsochitieu.childrentFragment2
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Gravity
 import androidx.fragment.app.Fragment
@@ -27,7 +28,7 @@ class FramentTaiKhoan : Fragment() {
     private lateinit var ds: ArrayList<DataTaiKhoan>
     private lateinit var dbRef: DatabaseReference
     private lateinit var recyclerView: RecyclerView
-    private lateinit var mtotal : TextView
+
 
 
     override fun onCreateView(
@@ -43,7 +44,6 @@ class FramentTaiKhoan : Fragment() {
 
         val cardviewDropOut = view.findViewById<CardView>(R.id.cardviewDropOut)
          recyclerView = view.findViewById(R.id.recyclerView)
-
         val transition = Slide(Gravity.START)  // Create a transition (you can use other types like Slide, Fade, etc.)
         transition.duration = 200
 
@@ -52,7 +52,6 @@ class FramentTaiKhoan : Fragment() {
             TransitionManager.beginDelayedTransition(view as ViewGroup, transition)
             recyclerView.visibility = if (recyclerView.visibility == View.GONE) View.VISIBLE else View.GONE
         }
-
 
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -68,6 +67,7 @@ class FramentTaiKhoan : Fragment() {
     private fun GetThongTinTaiKhoan() {
         dbRef = FirebaseDatabase.getInstance().getReference("hemTaiKhoan")
         dbRef.addValueEventListener(object : ValueEventListener{
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
                 ds.clear()
                 if (snapshot.exists()){
@@ -77,15 +77,18 @@ class FramentTaiKhoan : Fragment() {
                     }
                     val mAdapter = TaiKhoanAdapter(ds)
                     recyclerView.adapter = mAdapter
-                    val totalSodu = mAdapter.calculateTotalSodu()
-                    mtotal.text = "Total Sodu: $totalSodu"
+
+                    val mtotal = view?.findViewById<TextView>(R.id.totalMn)
+                    mAdapter.notifyDataSetChanged() // Notify the adapter of data changes
+                    val totalSodu = mAdapter.calculateTotalSodu() // Calculate total sodu using the adapter
+                    mtotal?.text = "Total Sodu: $totalSodu"
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
-
         })
     }
+
 }

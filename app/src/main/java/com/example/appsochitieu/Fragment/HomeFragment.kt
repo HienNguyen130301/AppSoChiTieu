@@ -19,6 +19,7 @@ import com.example.appsochitieu.R
 import com.example.appsochitieu.childrentFragmentHome.NoficationHomeFragment
 import com.example.appsochitieu.childrentFragmentHome.ThemHanMucActivity
 import com.example.appsochitieu.childrentFragmentHome.ThemMoiActivity
+import com.example.appsochitieu.childrentFragmentHome.ThuChiSettingActivity
 import com.example.appsochitieu.childrentFragmentHome.TongSoDuActivity
 
 class HomeFragment : Fragment() {
@@ -43,6 +44,15 @@ class HomeFragment : Fragment() {
         gotoThemHanMuc()
         gotoThemMoi()
         gotoTongSoDu()
+        gointoSetting()
+    }
+
+    private fun gointoSetting(){
+        val mThuchi = view?.findViewById<ImageView>(R.id.settingThuChi)
+        mThuchi?.setOnClickListener {
+            val intent = Intent(requireContext(), ThuChiSettingActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun gotoTongSoDu() {

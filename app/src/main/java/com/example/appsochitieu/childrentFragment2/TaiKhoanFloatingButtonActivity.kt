@@ -66,8 +66,8 @@ class TaiKhoanFloatingButtonActivity : AppCompatActivity() {
         val mbtn5: EditText = findViewById(R.id.empDienGiai)
 
 
-
-        val sodu = mbtn1.text.toString()
+        val soduText = mbtn1.text.toString()
+        val sodu = if (soduText.isEmpty()) 0 else soduText.toInt()
         val tentaikhoan = mbtn2.text.toString()
         val loaitaikhoan = mbtn3.text.toString()
         val loaitiente = mbtn4.text.toString()
@@ -76,7 +76,7 @@ class TaiKhoanFloatingButtonActivity : AppCompatActivity() {
         val taikhoanId = dbRef.push().key!!
         val themTaiKhoan = DataTaiKhoan(taikhoanId,sodu,tentaikhoan,loaitaikhoan,loaitiente,diengiai)
 
-        if (sodu.isEmpty() || tentaikhoan.isEmpty() || loaitaikhoan.isEmpty() || loaitiente.isEmpty() || diengiai.isEmpty()){
+        if ( tentaikhoan.isEmpty() || loaitaikhoan.isEmpty() || loaitiente.isEmpty() || diengiai.isEmpty()){
              Toast.makeText(this, "Please fill all the field", Toast.LENGTH_SHORT).show()
             return
         }

@@ -31,7 +31,7 @@ class TaiKhoanAdapter(private val items: ArrayList<DataTaiKhoan>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = items[position]
 
-        holder.textView.text = currentItem.sodu
+        holder.textView.text = currentItem.sodu.toString()
         holder.textView2.text = currentItem.tentaikhoan
     }
 
@@ -39,20 +39,12 @@ class TaiKhoanAdapter(private val items: ArrayList<DataTaiKhoan>) :
         return items.size
     }
 
-    fun calculateTotalSodu(): Double {
-        var totalSodu = 0.0
+    fun calculateTotalSodu(): Int {
+        var totalSodu = 0
         for (item in items) {
-            totalSodu += item.sodu!!.toDouble()
-            if (item.sodu == null) {
-                Log.d("Hienzd", "null roi nhe")
-            } else {
-                totalSodu += item.sodu!!.toDouble()
-                Log.d("Hienzd", "${item.sodu}")
-            }
+            totalSodu += item.sodu ?: 0
         }
         return totalSodu
     }
-
-
 
 }
