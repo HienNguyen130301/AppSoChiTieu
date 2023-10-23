@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appsochitieu.R
 import com.example.appsochitieu.DataBase.DataTaiKhoan
+import java.text.DecimalFormat
 
 class TaiKhoanAdapter(private val items: ArrayList<DataTaiKhoan>) :
     RecyclerView.Adapter<TaiKhoanAdapter.MyViewHolder>() {
@@ -21,7 +22,6 @@ class TaiKhoanAdapter(private val items: ArrayList<DataTaiKhoan>) :
     }
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.themtaikhoan_list_item, parent, false)
@@ -31,8 +31,12 @@ class TaiKhoanAdapter(private val items: ArrayList<DataTaiKhoan>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = items[position]
 
-        holder.textView.text = currentItem.sodu.toString()
+        val formattedSodu = formatNumber(currentItem.sodu ?: 0)
+
+        holder.textView.text = formattedSodu
         holder.textView2.text = currentItem.tentaikhoan
+
+
     }
 
     override fun getItemCount(): Int {
@@ -47,4 +51,8 @@ class TaiKhoanAdapter(private val items: ArrayList<DataTaiKhoan>) :
         return totalSodu
     }
 
+    private fun formatNumber(number: Int): String {
+        val decimalFormat = DecimalFormat("#,###")
+        return decimalFormat.format(number)
+    }
 }

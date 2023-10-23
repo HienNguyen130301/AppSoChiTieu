@@ -22,6 +22,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import java.text.DecimalFormat
 
 class FramentTaiKhoan : Fragment() {
 
@@ -62,7 +65,10 @@ class FramentTaiKhoan : Fragment() {
 
     }
 
-
+    fun formatNumber(number: Int): String {
+        val decimalFormat = DecimalFormat("#,###")
+        return decimalFormat.format(number)
+    }
 
     private fun GetThongTinTaiKhoan() {
         dbRef = FirebaseDatabase.getInstance().getReference("hemTaiKhoan")
@@ -79,9 +85,17 @@ class FramentTaiKhoan : Fragment() {
                     recyclerView.adapter = mAdapter
 
                     val mtotal = view?.findViewById<TextView>(R.id.totalMn)
+                    val mtotal2 = view?.findViewById<TextView>(R.id.totalMn2)
+
                     mAdapter.notifyDataSetChanged() // Notify the adapter of data changes
                     val totalSodu = mAdapter.calculateTotalSodu() // Calculate total sodu using the adapter
-                    mtotal?.text = "Total Sodu: $totalSodu"
+                    val fomartNumber = formatNumber(totalSodu)
+                    mtotal?.text = "Đang sử dụng ($fomartNumber đ)"
+                    mtotal2?.text = "Tổng tiền: $fomartNumber đ"
+
+                    val database = Firebase.database
+                    val myRef = database.getReference("Total Money")
+                    myRef.setValue(totalSodu)
                 }
             }
 

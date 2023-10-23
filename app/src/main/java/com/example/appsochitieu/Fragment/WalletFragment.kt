@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.appsochitieu.R
+import com.example.appsochitieu.childrentFragment2.BottomSheetFragment
 import com.example.appsochitieu.childrentFragment2.TaiKhoanFloatingButtonActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -32,7 +34,18 @@ class WalletFragment : Fragment() {
 
         Viewpager()
         floatingBtn()
+        goSetting()
 
+    }
+
+    private fun goSetting(){
+        val setting = view?.findViewById<ImageView>(R.id.setting)
+        setting?.setOnClickListener {
+            // In your activity
+            val bottomSheetFragment = BottomSheetFragment()
+            bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
+
+        }
     }
 
     private fun Viewpager() {

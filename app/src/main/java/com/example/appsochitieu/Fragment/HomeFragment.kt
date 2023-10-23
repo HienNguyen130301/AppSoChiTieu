@@ -1,5 +1,6 @@
 package com.example.appsochitieu.Fragment
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -13,23 +14,36 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appsochitieu.Adapter.TaiKhoanAdapter
+import com.example.appsochitieu.DataBase.DataTaiKhoan
 import com.example.appsochitieu.R
 import com.example.appsochitieu.childrentFragmentHome.NoficationHomeFragment
 import com.example.appsochitieu.childrentFragmentHome.ThemHanMucActivity
 import com.example.appsochitieu.childrentFragmentHome.ThemMoiActivity
 import com.example.appsochitieu.childrentFragmentHome.ThuChiSettingActivity
 import com.example.appsochitieu.childrentFragmentHome.TongSoDuActivity
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
+import java.text.DecimalFormat
 
 class HomeFragment : Fragment() {
+
+    private lateinit var ds: ArrayList<DataTaiKhoan>
+    private lateinit var recyclerView: RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
-
+        FirebaseApp.initializeApp(requireContext());
         return rootView
     }
 
@@ -40,11 +54,42 @@ class HomeFragment : Fragment() {
         gotoNofiActivity()
         dataMenu()
         showDateRangePicker()
-        hideMoney()
+        //hideMoney()
         gotoThemHanMuc()
         gotoThemMoi()
         gotoTongSoDu()
         gointoSetting()
+        ShowTotalMoeny()
+    }
+
+    fun formatNumber(number: Int): String {
+        val decimalFormat = DecimalFormat("#,###")
+        return decimalFormat.format(number)
+    }
+
+
+
+    private fun ShowTotalMoeny() {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("Total Money")
+
+        val totalMoney = view?.findViewById<TextView>(R.id.totalMoney)
+        databaseReference.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    // Data exists, you can access it using dataSnapshot
+                    val data = snapshot.getValue(Int::class.java)
+                    // This will give you the data as a Map
+                    val fomartNumber = data?.let { formatNumber(it) }
+
+                    totalMoney?.text = fomartNumber + " đ"
+                } else {
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     private fun gointoSetting(){
@@ -87,28 +132,31 @@ class HomeFragment : Fragment() {
         }
     }
 
+  /*  @SuppressLint("SetTextI18n")
     private fun hideMoney() {
-        val selectedDateRangeTextView = view?.findViewById<TextView>(R.id.totalMoney)
+        val totalMoney = view?.findViewById<TextView>(R.id.totalMoney)
         val hideTextButton = view?.findViewById<ImageView>(R.id.eyeshide)
 
         var isTextHidden = false
 
+
+
         hideTextButton?.setOnClickListener {
             if (isTextHidden) {
                 // If the text is currently hidden, restore the original text
-                selectedDateRangeTextView?.text = "1.000.000.000 $"
+                totalMoney?.text = fomartNumber1 + " đ"
                 isTextHidden = false
                 // Change the ImageView source to the "hide" icon
                 hideTextButton.setImageResource(R.drawable.eye24)
             } else {
                 // If the text is not hidden, replace it with asterisks
-                selectedDateRangeTextView?.text = "*******"
+                totalMoney?.text = "*******"
                 isTextHidden = true
                 // Change the ImageView source to the "show" icon
                 hideTextButton.setImageResource(R.drawable.baseline_visibility_off_24)
             }
         }
-    }
+    }*/
 
     private fun showDateRangePicker() {
         val dialogView =

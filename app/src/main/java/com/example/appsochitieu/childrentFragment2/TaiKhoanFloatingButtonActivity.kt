@@ -16,6 +16,7 @@ import com.example.appsochitieu.DataBase.DataTaiKhoan
 import com.example.appsochitieu.R
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.text.DecimalFormat
 
 class TaiKhoanFloatingButtonActivity : AppCompatActivity() {
 
@@ -53,6 +54,11 @@ class TaiKhoanFloatingButtonActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun formatNumber(number: Int): String {
+        val decimalFormat = DecimalFormat("#,###")
+        return decimalFormat.format(number)
     }
 
     @SuppressLint("SuspiciousIndentation")
