@@ -54,7 +54,6 @@ class HomeFragment : Fragment() {
         gotoNofiActivity()
         dataMenu()
         showDateRangePicker()
-        //hideMoney()
         gotoThemHanMuc()
         gotoThemMoi()
         gotoTongSoDu()
@@ -67,10 +66,9 @@ class HomeFragment : Fragment() {
         return decimalFormat.format(number)
     }
 
-
-
     private fun ShowTotalMoeny() {
         val databaseReference = FirebaseDatabase.getInstance().getReference("Total Money")
+        val hideTextButton = view?.findViewById<ImageView>(R.id.eyeshide)
 
         val totalMoney = view?.findViewById<TextView>(R.id.totalMoney)
         databaseReference.addValueEventListener(object: ValueEventListener {
@@ -82,6 +80,24 @@ class HomeFragment : Fragment() {
                     val fomartNumber = data?.let { formatNumber(it) }
 
                     totalMoney?.text = fomartNumber + " đ"
+
+                    var isTextHidden = false
+
+                    hideTextButton?.setOnClickListener {
+                        if (isTextHidden) {
+                            // If the text is currently hidden, restore the original text
+                            totalMoney?.text = fomartNumber + " đ"
+                            isTextHidden = false
+                            // Change the ImageView source to the "hide" icon
+                            hideTextButton.setImageResource(R.drawable.eye24)
+                        } else {
+                            // If the text is not hidden, replace it with asterisks
+                            totalMoney?.text = "*******"
+                            isTextHidden = true
+                            // Change the ImageView source to the "show" icon
+                            hideTextButton.setImageResource(R.drawable.baseline_visibility_off_24)
+                        }
+                    }
                 } else {
                 }
             }
@@ -131,32 +147,6 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
     }
-
-  /*  @SuppressLint("SetTextI18n")
-    private fun hideMoney() {
-        val totalMoney = view?.findViewById<TextView>(R.id.totalMoney)
-        val hideTextButton = view?.findViewById<ImageView>(R.id.eyeshide)
-
-        var isTextHidden = false
-
-
-
-        hideTextButton?.setOnClickListener {
-            if (isTextHidden) {
-                // If the text is currently hidden, restore the original text
-                totalMoney?.text = fomartNumber1 + " đ"
-                isTextHidden = false
-                // Change the ImageView source to the "hide" icon
-                hideTextButton.setImageResource(R.drawable.eye24)
-            } else {
-                // If the text is not hidden, replace it with asterisks
-                totalMoney?.text = "*******"
-                isTextHidden = true
-                // Change the ImageView source to the "show" icon
-                hideTextButton.setImageResource(R.drawable.baseline_visibility_off_24)
-            }
-        }
-    }*/
 
     private fun showDateRangePicker() {
         val dialogView =

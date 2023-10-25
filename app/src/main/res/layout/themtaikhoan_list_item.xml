@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/txt2"
-                android:layout_width="290dp"
+                android:layout_width="250dp"
                 android:layout_height="25dp"
                 android:paddingLeft="20dp"
                 android:text="Tp Bank"
@@ -38,15 +38,14 @@
 
             <TextView
                 android:id="@+id/txt1"
-                android:layout_width="290dp"
+                android:layout_width="250dp"
                 android:layout_height="25dp"
-                android:layout_marginTop="24dp"
                 android:paddingLeft="20dp"
                 android:text="999.000.000 đ"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/txt2" />
 
             <ImageView
                 android:layout_width="30dp"
